@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+        *{
+            margin: 0%;
+            padding: 0%;
+            font-weight: bolder;
+            font-family: cursive;
+            color: beige;
+        }
+        #bg{
+            background-image: linear-gradient(to right, #20186A, #C92E7C);
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        #container{
+            width:400px ;
+            height: 300px; 
+        }
+        p{
+            margin: 20px;
+            font-size: large;
+        }
+        #butn{
+            display: flex;
+            justify-content: space-around;
+        }
+        #btn1{
+            width: 100px;
+            height: 50px;
+            background-color: #20186A;
+            border: none;
+            border-radius: 50px;
+            margin: 10px;
+            font-size: large;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        #btn2{
+            width: 100px;
+            height: 50px;
+            background-color: #C92E7C;
+            border: none;
+            border-radius: 50px;
+            margin: 10px;
+            font-size: large;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+
+        #content{
+            margin:15px;
+           font-size:large;
+           text-align: left;
+           border-left: 2px  solid white;
+           padding: 2%;
+           opacity: 0.7;
+           box-shadow: 0 0 10px rgb(196, 195, 195);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="bg">
+       <div id="container">
+        <h1>Gradient Color Generator</h1>
+        <p>Click buttons to Change</p>
+        <div id="butn">
+            <button id="btn1">#20186A</button>
+            <button id="btn2">#3C92E7C</button>
+        </div>
+        <div style="text-align:left; display: inline; margin: 20px;">Click to Copy 👇</div>
+        <div id="copied" style="text-align: right; display: inline; margin: 20px;"></div>
+        <div id="content">
+            <kbd>
+            background-image: <br> linear-gradient(to right, rgb(32, 24, 106) , rgb(201, 46, 124));
+            </kbd>
+        </div>
+       </div>
+    </div>
+    
+
+
+    <script>
+        let btn1 = document.getElementById("btn1");
+        let btn2 = document.getElementById("btn2");
+        let content = document.getElementById("content");
+        let bg = document.getElementById("bg");
+        let code1='#20186A'
+        let code2='#C92E7C'
+
+
+        const randomcolor=()=>{
+            let hexcode="0123456789ABCDEF"
+             let colorcode= '#'
+            for (let i = 0; i < 6; i++) {
+                let r = hexcode[Math.round(Math.random()*15)];
+                colorcode+=r
+            }
+            return colorcode
+        }
+
+        const bgColor=(btn)=>{
+             btn.innerText=`${code2}`
+             btn.style.backgroundColor=`${code2}`
+             bg.style.backgroundImage=`linear-gradient(to right,  ${code1} , ${code2})`
+
+             const rgbaColor1= convertHexToRGBA(code1)
+             const rgbaColor2= convertHexToRGBA(code2)
+             content.innerText=`background-image:\n linear-gradient(to right, ${rgbaColor1}, ${rgbaColor2});`
+            
+        }
+
+        btn1.addEventListener('click',()=>{
+            code1=  randomcolor()
+            bgColor(btn1)
+            btn1.innerText=`${code1}`
+            btn1.style.backgroundColor=`${code1}`   
+        })
+
+        btn2.addEventListener('click',()=>{
+            code2=  randomcolor() 
+            bgColor(btn2)    
+        })
+
+
+        const convertHexToRGBA = (hexCode) => {
+           let hex = hexCode.replace('#', '');
+           if (hex.length === 3) {
+              hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
+            }
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        return `rgba(${r},${g},${b})`;
+        };
+
+        content.addEventListener('click',()=>{
+            navigator.clipboard.writeText(content.innerText)
+            const copied = document.getElementById('copied');
+            copied.textContent = 'Copied!';
+            setTimeout(() => {
+            copied.textContent = '';
+            }, 1200);
+        })
+        
+        
+    </script>
+</body>
+</html>
